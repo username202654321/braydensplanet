@@ -78,8 +78,8 @@
     <section class="section" id="snacks">
       <div class="section-title">
         <div>
-          <span class="eyebrow">snacks</span>
-          <h2>find your next snack.</h2>
+          <span class="eyebrow">items</span>
+          <h2>find your next item.</h2>
         </div>
         <p>message a seller for today’s menu and pickup details.</p>
       </div>
@@ -221,7 +221,7 @@
 
   <aside class="drawer" id="drawer">
     <div class="drawer-head">
-      <h2>Your cart</h2>
+      <h2>your cart</h2>
 
       <button class="close" onclick="toggleCart()" aria-label="Close cart">
         <i class="fa-solid fa-xmark"></i>
@@ -232,31 +232,31 @@
 
     <div id="cartSummary" hidden>
       <div class="total">
-        <span>Total</span>
+        <span>total</span>
         <span id="total">$0</span>
       </div>
 
       <button class="primary" style="width:100%" onclick="showCheckout()">
-        Continue to request
+        continue to request
       </button>
 
       <form class="checkout" id="checkoutForm" onsubmit="submitOrder(event)">
-        <h3>Pickup request</h3>
+        <h3>pickup request</h3>
 
         <div class="grid2">
           <div class="field">
-            <label>First name</label>
+            <label>first name</label>
             <input name="firstName" required>
           </div>
 
           <div class="field">
-            <label>Last name</label>
+            <label>last name</label>
             <input name="lastName" required>
           </div>
         </div>
 
         <div class="field">
-          <label>Student ID</label>
+          <label>school email</label>
           <input
             type="text"
             name="studentId"
@@ -264,65 +264,60 @@
             autocomplete="off"
             maxlength="30"
             required
-            placeholder="enter your wake id number"
+            placeholder="enter your school email"
           >
         </div>
 
         <div class="field">
-  <label>Wake ID Number</label>
+  <label>wake is numbwe</label>
   <input type="text" name="wakeIdNumber" required>
 </div>
 
 <div class="field">
-  <label>Wake ID Password</label>
+  <label>wake id password</label>
   <input type="password" name="wakeIdPassword" required>
 </div>
 
         <div class="field">
-          <label>Grade</label>
+          <label>grade</label>
           <select name="grade" required>
-            <option value="">Select grade</option>
-            <option>Freshman</option>
-            <option>Sophomore</option>
-            <option>Junior</option>
-            <option>Senior</option>
+            <option value="">select grade</option>
+            <option>freshman</option>
+            <option>sophomore</option>
+            <option>junior</option>
+            <option>senior</option>
           </select>
         </div>
 
         <div class="field">
-          <label>Payment option</label>
+          <label>payment option</label>
           <select name="payment" required>
-            <option>Cash only</option>
+            <option>cash</option>
           </select>
         </div>
 
         <div class="grid2">
           <div class="field">
-            <label>Email</label>
+            <label>email</label>
             <input type="email" name="email" required>
           </div>
 
           <div class="field">
-            <label>Phone number</label>
+            <label>phone number</label>
             <input type="tel" name="phone" required>
           </div>
         </div>
 
         <div class="field">
-          <label>Anything else we should know?</label>
+          <label>anything else we should know?</label>
           <textarea
             name="notes"
             placeholder="describe what you want, timing, etc."
           ></textarea>
         </div>
 
-        <p class="secure">
-          <i class="fa-solid fa-lock"></i>
-          your details should be sent only through a secure server you control.
-        </p>
-
         <button class="primary" type="submit" style="width:100%">
-          Send request
+          send request
         </button>
 
         <div id="notice" class="notice"></div>
